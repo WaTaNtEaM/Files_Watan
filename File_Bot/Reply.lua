@@ -19,7 +19,7 @@ end
 ----- لن ابرئ الذمة لأي شخص يأخذ حرفاً او رقما من ملفي ، ايٍ كان الشخص لن ابرئ الذمة لهُ -----
 if text == 'باي' and ChanSub(msg) or text == 'بااي' and ChanSub(msg) or text == 'اروح' and ChanSub(msg) or text == 'اروح احسن' and ChanSub(msg) or text == 'اولي احسن' and ChanSub(msg) or text == 'راح اروح' and ChanSub(msg) or text == 'باي انام' and ChanSub(msg) then 
 local WaTaNTeaM = {
-'أُرٌجُعُ عٍيدِهآآ مٍوو تنِْسةه 𖠙 🤤♥️','وين رايـح خخـلينا متونسيـن','شبيك ضججت ححبي'
+'أُرٌجُعُ عٍيدِهآآ مٍوو تنِْسةه 𖠙 🤤♥️','وين رايـح خخـلينا متونسيـن','شبيك ضججت ححبي','دمشي لك قشمرر'
 }  
 send(msg.chat_id_, msg.id_,''..WaTaNTeaM[math.random(#WaTaNTeaM)]..'')  
 return false
@@ -98,7 +98,7 @@ return false
 end
 ----- لن ابرئ الذمة لأي شخص يأخذ حرفاً او رقما من ملفي ، ايٍ كان الشخص لن ابرئ الذمة لهُ -----
 if text == 'هاي' and ChanSub(msg) then
-TextReply = 'هـاي وحلبب هـهـهـه'
+TextReply = 'هـاي وحليب هـهـهـه'
 send(msg.chat_id_, msg.id_,'['..TextReply..']')
 return false
 end
@@ -209,7 +209,7 @@ send(msg.chat_id_, msg.id_,'['..TextReply..']')
 return false
 end
 if text == '🌝' and ChanSub(msg) then
-TextReply = 'منورر يوم حياتي'
+TextReply = 'منورر اليوم حياتي'
 send(msg.chat_id_, msg.id_,'['..TextReply..']')
 return false
 end
