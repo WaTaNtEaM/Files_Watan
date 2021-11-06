@@ -24,6 +24,7 @@ Text_Games = [[
  ✯︙لعبه كت تويت ~⪼ كت تويت 
  ✯︙لعبه لو خيروك ~⪼ لو خيروك 
  ✯︙لعبه الصراحه ~⪼ صراحه 
+ ✯︙لعبه روليت ~⪼ روليت 
 •━━━━━━━━━━━━━•ٴ
 ➫ .[🖨┇𝚂𝙾𝚄𝚁𝙲𝙴𝚂 𝚆𝙰𝚃𝙰𝙽. ](t.me/WaTaNTeaM)➤
 ]]
@@ -51,6 +52,66 @@ local WaTaNTeaM = {
 send(msg.chat_id_, msg.id_,''..WaTaNTeaM[math.random(#WaTaNTeaM)]..'')  
 return false
 end
+end
+----- لن ابرئ الذمة لأي شخص يأخذ حرفاً او رقما من ملفي ، ايٍ كان الشخص لن ابرئ الذمة لهُ -----
+if text and text:match('^(@[%a%d_]+)$') and database:get(bot_id..":Number_Add:"..msg.chat_id_..msg.sender_user_id_) then
+if database:sismember(bot_id..':List_Rolet:'..msg.chat_id_,text) then
+send(msg.chat_id_,msg.id_,"*✯︙المعرف ["..text.." ] موجود اساساً*")
+return false
+end 
+database:sadd(bot_id..':List_Rolet:'..msg.chat_id_,text)
+local CountAdd = database:get(bot_id..":Number_Add:"..msg.chat_id_..msg.sender_user_id_)
+local CountAll = database:scard(bot_id..':List_Rolet:'..msg.chat_id_)
+local CountUser = CountAdd - CountAll
+if tonumber(CountAll) == tonumber(CountAdd) then 
+database:del(bot_id..":Number_Add:"..msg.chat_id_..msg.sender_user_id_) 
+database:setex(bot_id..":Witting_StartGame:"..msg.chat_id_..msg.sender_user_id_,1400,true)  
+send(msg.chat_id_,msg.id_,"*✯︙تم حفظ المعرف* (["..text.."])\n*✯︙تم اكمال العدد الكلي*\n*✯︙ارسل (نعم) للبدء*")
+return false
+end  
+send(msg.chat_id_,msg.id_,"*✯︙تم حفظ المعرف* (["..text.."])\n*✯︙تبقى "..CountUser.." لاعبين ليكتمل العدد*\n*✯︙ارسل المعرف التالي*")
+return false
+end 
+if text and text:match("^(%d+)$") and database:get(bot_id..":Start_Rolet:"..msg.chat_id_..msg.sender_user_id_) then
+if text == "1" then
+send(msg.chat_id_, msg.id_," *✯︙لا استطيع بدء اللعبه بلاعب واحد فقط*")
+elseif text ~= "1" then
+database:set(bot_id..":Number_Add:"..msg.chat_id_..msg.sender_user_id_,text)  
+database:del(bot_id..":Start_Rolet:"..msg.chat_id_..msg.sender_user_id_)  
+send(msg.chat_id_, msg.id_,"*✯︙قم  بأرسال معرفات اللاعبين الان*")
+return false
+end
+end 
+if text == 'روليت' then
+database:del(bot_id..":Number_Add:"..msg.chat_id_..msg.sender_user_id_) 
+database:del(bot_id..':List_Rolet:'..msg.chat_id_)  
+database:setex(bot_id..":Start_Rolet:"..msg.chat_id_..msg.sender_user_id_,3600,true)  
+send(msg.chat_id_, msg.id_, '*✯︙ارسل عدد اللاعبين للروليت*')
+end
+if text == 'نعم' and database:get(bot_id..":Witting_StartGame:"..msg.chat_id_..msg.sender_user_id_) then
+local list = database:smembers(bot_id..':List_Rolet:'..msg.chat_id_) 
+if #list == 1 then 
+send(msg.chat_id_, msg.id_,  "*✯︙لم يكتمل العدد الكلي للاعبين*" )
+elseif #list == 0 then 
+send(msg.chat_id_, msg.id_, "*✯︙عذرا لم تقوم باضافه اي لاعب*" )
+return false
+end 
+local UserName = list[math.random(#list)]
+database:del(bot_id..':List_Rolet:'..msg.chat_id_) 
+database:del(bot_id..":Witting_StartGame:"..msg.chat_id_..msg.sender_user_id_)
+send(msg.chat_id_, msg.id_, '*✯︙الفائز هوه* ['..UserName..']')
+return false
+end 
+if text == 'الاعبين' then
+local list = database:smembers(bot_id..':List_Rolet:'..msg.chat_id_) 
+local Text = '\n*ـــــــــــــــــــــــــــــــــــــــــــــــــــــــــ*\n' 
+if #list == 0 then 
+send(msg.chat_id_, msg.id_,'*✯︙لا يوجد لاعبين هنا*')
+end 
+for k, v in pairs(list) do 
+Text = Text..k.."•  » [" ..v.."] »\n"  
+end 
+send(msg.chat_id_, msg.id_, Text)
 end
 ----- لن ابرئ الذمة لأي شخص يأخذ حرفاً او رقما من ملفي ، ايٍ كان الشخص لن ابرئ الذمة لهُ -----
 if text == 'الصراحه' or text == 'صراحه' then
